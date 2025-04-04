@@ -4,6 +4,7 @@ import com.github.andreytondo.chess.game.moves.generators.MoveGenerator;
 import com.github.andreytondo.chess.game.moves.generators.StraigthMoveGenerator;
 import com.github.andreytondo.chess.game.pieces.utils.ChessPiece;
 import com.github.andreytondo.chess.game.pieces.utils.PieceColor;
+import com.github.andreytondo.chess.game.pieces.utils.PieceType;
 
 import java.util.List;
 
@@ -16,5 +17,10 @@ public class Rook extends ChessPiece {
     @Override
     public List<MoveGenerator> getMoveGenerators() {
         return List.of(new StraigthMoveGenerator());
+    }
+
+    @Override
+    public PieceType getType() {
+        return PieceType.ROOK;
     }
 }

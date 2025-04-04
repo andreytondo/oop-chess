@@ -1,7 +1,6 @@
 package com.github.andreytondo.chess;
 
 import com.github.andreytondo.chess.ui.frames.MainFrame;
-
 import javax.swing.*;
 
 public class Main {

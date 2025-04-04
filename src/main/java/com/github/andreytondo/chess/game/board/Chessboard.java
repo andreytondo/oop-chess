@@ -8,13 +8,15 @@ import com.github.andreytondo.chess.game.moves.validators.SelfCheckValidator;
 import com.github.andreytondo.chess.game.pieces.utils.ChessPiece;
 import com.github.andreytondo.chess.game.pieces.utils.PieceColor;
 import com.github.andreytondo.chess.game.pieces.utils.Position;
+import com.github.andreytondo.chess.player.java.JavaChessPlayer;
 
 import java.util.List;
 
 public class Chessboard {
 
-    private final ChessPiece[][] board;
+    private ChessPiece[][] board;
     private PieceColor activeColor;
+    private Move lastMove;
 
     public Chessboard(ChessPiece[][] board, PieceColor pieceColor) {
         this.board = board;
@@ -30,7 +32,7 @@ public class Chessboard {
     public List<Move> getValidMoves(Position position) {
         ChessPiece piece = getPieceAt(position);
 
-        if (piece == null) {
+        if (piece == null || piece.getColor() != activeColor) {
             return List.of();
         }
 
@@ -65,9 +67,18 @@ public class Chessboard {
 
         if (getValidMoves(move.from()).contains(move)) {
             applyMove(move, piece);
+            lastMove = move;
             activeColor = activeColor.getOppositeColor();
         }
 
+    }
+
+    public void undoMove() {
+        if (lastMove != null) {
+            Move move = new Move(lastMove.to(), lastMove.from());
+            activeColor = activeColor.getOppositeColor();
+            movePiece(move);
+        }
     }
 
     public void applyMove(Move move, ChessPiece piece) {
@@ -75,4 +86,11 @@ public class Chessboard {
         board[move.from().row()][move.from().column()] = null;
     }
 
+    public ChessPiece[][] getBoard() {
+        return board;
+    }
+
+    public void setActiveColor(PieceColor activeColor) {
+        this.activeColor = activeColor;
+    }
 }

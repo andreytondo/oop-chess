@@ -3,7 +3,9 @@ package com.github.andreytondo.chess.ui.panels;
 import com.github.andreytondo.chess.game.board.Chessboard;
 import com.github.andreytondo.chess.game.moves.Move;
 import com.github.andreytondo.chess.game.pieces.utils.ChessPiece;
+import com.github.andreytondo.chess.game.pieces.utils.PieceColor;
 import com.github.andreytondo.chess.game.pieces.utils.Position;
+import com.github.andreytondo.chess.player.java.JavaChessPlayer;
 import com.github.andreytondo.chess.ui.images.ImageLoader;
 import com.github.andreytondo.chess.ui.images.ImageObserverImpl;
 import com.github.andreytondo.chess.ui.images.PieceImageMapper;
@@ -109,6 +111,15 @@ public class ChessboardPanel extends JPanel {
             Move move = new Move(selectedPosition, clickedPosition);
             chessboard.movePiece(move);
             selectedPosition = null;
+
+            if (chessboard.getActiveColor() == PieceColor.BLACK) {
+                JavaChessPlayer player = new JavaChessPlayer(chessboard.getActiveColor(), chessboard);
+                player.search(2, Integer.MIN_VALUE, Integer.MAX_VALUE);
+                chessboard.setActiveColor(PieceColor.BLACK);
+                System.out.println(player.makeMove());
+                chessboard.movePiece(player.makeMove());
+            }
+
         }
         repaint();
     }

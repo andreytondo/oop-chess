@@ -30,6 +30,8 @@ public abstract class ChessPiece implements Cloneable {
 
     public abstract List<MoveGenerator> getMoveGenerators();
 
+    public abstract PieceType getType();
+
     @Override
     public ChessPiece clone() {
         try {
